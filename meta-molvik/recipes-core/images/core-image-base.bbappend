@@ -1,7 +1,5 @@
-ROOT_PASSWD ?= "r00t"
-set_root_password () {
-        local p=$(openssl passwd -1 -salt "As salty as the Dead Sea" "${ROOT_PASSWD}")
-        sed -e "s/root:[^:]*:/root:${p}:/" -i ${IMAGE_ROOTFS}/etc/shadow
-}
-# EXPORT_FUNCTIONS set_root_password
-ROOTFS_POSTPROCESS_COMMAND += "set_root_password; "
+inherit extrausers
+PASSWD="\$5\$pv8R87nMMJqQGIII\$QR/7Byss9GN1byk4Phex8u/IVXgnvRxLZC/0ywOL4M0"
+EXTRA_USERS_PARAMS = "\
+    usermod -p '${PASSWD}' root; \
+    "
